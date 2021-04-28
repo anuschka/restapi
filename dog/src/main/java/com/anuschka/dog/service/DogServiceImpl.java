@@ -22,7 +22,11 @@ public class DogServiceImpl implements DogService {
     public String retrieveDogBreedById(Long id){
 
         Optional<String> optionalBreed = Optional.ofNullable(dogRepository.findBreedById(id));
-        String breed = optionalBreed.orElseThrow(DogNotFoundException::new);
+
+        if(!optionalBreed.isPresent()){
+            throw new DogNotFoundException();
+        }
+        String breed = dogRepository.findBreedById(id);
         return breed;
 
     };
